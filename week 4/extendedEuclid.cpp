@@ -1,34 +1,19 @@
-#include <iostream>
-
+#include <bits/stdc++.h>
 using namespace std;
+#define int long long
 
 int x, y, gcd;
 
-void extended (int a, int b) {
-    if (b == 0) {
-        x = 1; y = 0;
-        gcd = a;
+void extendEuclid(int a, int b){
+    if(a == 0){
+        gcd = b; x = 0; y = 1; return;
     }
-    else {
-        extended(b, a%b);
-        int tmp = x;
-        x = y;
-        y = tmp - (a/b) * y;
-    }
+    extendEuclid(b % a, a);
+    int tmp = y; y = x; x = tmp - (b/a) * x;
 }
 
-void inverse(int a, int m) {
-    extended (a,m);
-    if (gcd != 1)
-        cout << "Không tồn tại nghịch đảo của a modulo m.";
-    else
-        cout << (x % m + m) % m;
-}
+signed main() {
 
-int main() {
-    int a, m;
-    cin >> a >> m;
-
-    inverse (a,m);
-    return 0;
+    int a, b; cin >> a >> b;
+    extendEuclid(a, b); cout << x << ' ' << y << ' ' << gcd;
 }
